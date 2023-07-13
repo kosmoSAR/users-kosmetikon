@@ -7,11 +7,11 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'logout',
   templateUrl: './logout.component.html',
-  styleUrls: ['./logout.component.css']
 })
 export class LogoutComponent {
 
-  constructor(private _userService: UsersService, private router:Router, private _snackBar:MatSnackBar, private cookies:CookieService){}
+  constructor(private _userService: UsersService, private router:Router, private _snackBar:MatSnackBar,
+    private cookies:CookieService){}
 
   logout(){
     this._userService.logout().subscribe({

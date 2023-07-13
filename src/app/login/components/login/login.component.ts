@@ -25,7 +25,7 @@ export class InitialLoginComponent implements OnInit {
   ngOnInit(): void {
     if ( this.cookies.get('access_token') ) {
       this.firstLogout();
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['users']);
     }
   }
 

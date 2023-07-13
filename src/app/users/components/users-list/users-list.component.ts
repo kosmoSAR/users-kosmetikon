@@ -15,7 +15,7 @@ export class UsersListComponent implements OnInit, OnChanges{
   displayedColumns: string[] = ['nombre', 'apellido', 'fechaNacimiento', 'email', 'cargo', 'password', 'acciones'];
 
   public datos:any;
-  
+
   @Input() public userList: any[] = [];
   @Input() public cargos: any[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,7 +37,6 @@ export class UsersListComponent implements OnInit, OnChanges{
   loadData():any{
     this.dataSource = new MatTableDataSource( this.userList )
     this.dataSource.paginator = this.paginator;
-    console.log(this.userList);
   }
 
 
@@ -60,7 +59,6 @@ export class UsersListComponent implements OnInit, OnChanges{
 
   onUserEdit( obj: any ){
     const { user, event} = obj;
-    console.log({user, event});
     this.user.emit(obj)
   }
 

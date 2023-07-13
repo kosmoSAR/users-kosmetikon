@@ -9,7 +9,6 @@ import { UsersService } from 'src/app/services/users.service';
 @Component({
   selector: 'dlg-users',
   templateUrl: './dlg-users.component.html',
-  styleUrls: ['./dlg-users.component.css']
 })
 export class DlgUsersComponent {
 

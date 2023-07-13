@@ -13,3 +13,14 @@ export const LoginGuardian = () => {
     return false;
   }
 }
+
+export const LoginGuardian2 = () => {
+  const cookies = inject(CookieService);
+  const router = inject(Router)
+  if (cookies.get('access_token')) {
+    router.navigate(['users'])
+    return true;
+  } else {
+    return false;
+  }
+}

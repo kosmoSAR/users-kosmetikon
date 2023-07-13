@@ -1,36 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { Usuarios } from '../interfaces/users.interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgUsersComponent } from './components/dlg-users/dlg-users.component';
 import { DlgDeleteComponent } from './components/dlg-delete/dlg-delete.component';
+import { Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BehaviorService } from '../services/behavior.service';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnChanges {
 
-  constructor( private _userService: UsersService, public dialog: MatDialog ){ }
+  constructor( private _userService: UsersService, public dialog: MatDialog, private _snackBar:MatSnackBar,
+    private _behavior: BehaviorService ){ }
 
-  public usersList: any[] = [];
-  public cargos:any;
-  public cargoSeleccionado:any;
+    public obsSubject = new Subject<any>()
 
-  ngOnInit(): void {
-    this.getData()
-    this.loadCargos()
-  }
+    public usersList: any[] = [];
+    public cargos:any;
+    public cargoSeleccionado:any;
 
+    ngOnInit(): void {
+
+      this.obsSubject.subscribe( (data) => {
+        this.usersList = data
+      } )
+
+      this.getData()
+      this.loadCargos()
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+      this._behavior.obsMessage$.subscribe( (data) => {
+        console.log(data);
+      })
+    }
   getData(){
-    this._userService.getUserList().subscribe({
-      next: ( resp: any ) => {
-        this.usersList = resp.data;
-      },
-      error: ( error: string ) => {
-        console.log(error);
-      }
+    this._behavior.obsSubject$.subscribe( (resp) => {
+      this.obsSubject.next(resp.data)
     });
   }
 
@@ -38,13 +49,11 @@ export class UsersComponent implements OnInit {
     this._userService.getPositionList().subscribe({
       next: (resp) => {
         this.cargos = resp
-        console.log(this.cargos);
       }
     })
   }
 
   onUser( obj: any ){
-
     const { user, event} = obj;
 
     if ( user !== null && event === 'update') {
@@ -58,14 +67,9 @@ export class UsersComponent implements OnInit {
     if ( event === 'delete') {
       const dialogref = this.dialog.open(DlgDeleteComponent, { data: { user:user , event } });
       dialogref.beforeClosed().subscribe( (resp) => {
-        this._userService.deleteUser( resp ).subscribe({
-          next: (resp) => {
-            console.log(resp);
-            this.getData();
-          },
-          error: (error) => {
-            console.log(error);
-          }
+        this._behavior.deleteUser(resp)
+        this._behavior.obsMessage$.subscribe( (message) => {
+          this.message(message);
         })
       })
     }
@@ -74,31 +78,30 @@ export class UsersComponent implements OnInit {
       const dialogref = this.dialog.open(DlgUsersComponent, { data: { user:user , event, cargo:this.cargoSeleccionado} });
       if ( event === 'new') {
         dialogref.beforeClosed().subscribe( (resp) => {
-          this._userService.newUser( resp ).subscribe({
-            next: (resp) => {
-              console.log(resp);
-              this.getData();
-            },
-            error: (error) => {
-              console.log(error);
-            }
+          this._behavior.newUser( resp );
+          this._behavior.obsMessage$.subscribe( (message) => {
+            this.message(message);
           })
         })
       }
 
       if ( event === 'update') {
         dialogref.beforeClosed().subscribe( (resp) => {
-          this._userService.updateUser( resp ).subscribe({
-            next: (resp) => {
-              console.log(resp);
-              this.getData();
-            },
-            error: (error) => {
-              console.log(error);
-            }
+          this._behavior.updateUser( resp );
+          this._behavior.obsMessage$.subscribe( (message) => {
+            this.message(message);
           })
         })
       }
     }
   }
+
+  message( respuesta: string ){
+    this._snackBar.open(respuesta, "", {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  };
+
 }

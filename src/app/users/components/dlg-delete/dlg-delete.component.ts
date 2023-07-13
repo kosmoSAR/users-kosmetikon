@@ -12,9 +12,7 @@ export class DlgDeleteComponent {
 
   constructor(
     public dialogRef: MatDialogRef<DlgDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private _userService: UsersService,
-    private _snackBar: MatSnackBar
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any ) {}
 
   deleteUser(){
     const usuario = {
@@ -26,5 +24,5 @@ export class DlgDeleteComponent {
   closedlg(){
     this.dialogRef.close()
   }
-  
+
 }

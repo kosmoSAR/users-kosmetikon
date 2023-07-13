@@ -12,11 +12,6 @@
   </div>
 
   <div style="display: flex; justify-content: space-evenly;">
-    <!-- <mat-form-field style="margin-right: 1rem; width: 250px;">
-      <mat-label>Fecha de Nacimiento</mat-label>
-      <input matInput formControlName="fechaNacimiento" [maxLength]="10">
-      <mat-hint>YYYY-MM-DD</mat-hint>
-    </mat-form-field> -->
     <mat-form-field style="margin-right: 1rem; width: 250px;">
       <mat-label>Nacimiento</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
