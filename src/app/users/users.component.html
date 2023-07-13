@@ -1,3 +1,5 @@
+<logout></logout>
+
 <div class="title-div">
   <p>
     <mat-toolbar>
@@ -9,10 +11,10 @@
 </div>
 <div class="users-home">
   <div class="boton-crear">
-    <button mat-raised-button color="primary" (click)="openDialog( 'new' )">CREAR USUARIO</button>
+    <button mat-raised-button color="primary" (click)="onUser( {user:null, event:'new'} )">CREAR USUARIO</button>
   </div>
   <div class="user-table">
-    <users-list [userList]="userList"></users-list>
+    <users-list [userList]="usersList" [cargos]="cargos" (user)="onUser($event)" ></users-list>
   </div>
 </div>
 

@@ -7,7 +7,7 @@ import { Usuarios } from 'src/app/interfaces/users.interfaces';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
-  selector: 'app-dlg-users',
+  selector: 'dlg-users',
   templateUrl: './dlg-users.component.html',
   styleUrls: ['./dlg-users.component.css']
 })
@@ -89,60 +89,7 @@ export class DlgUsersComponent {
       PASSWORD: this.forms.value.password
     }
 
-    console.log(usuario);
-
-
-    if ( this.data.event === 'update' ) {
-      this._userService.updateUser( usuario ).subscribe({
-        next: ( resp: any ) => {
-          console.log(resp);
-          this.dialogRef.close();
-          this.updateSnackBar()
-        },
-        error: ( error: any ) => {
-          this.errorSnackBar( error.error )
-        }
-      });
-    } else if ( this.data.event === 'new' ) {
-      this._userService.newUser( usuario ).subscribe({
-        next: ( resp: any ) => {
-          this.forms.reset();
-          this.dialogRef.close();
-          this.createSnackBar()
-        },
-        error: ( error: any ) => {
-          console.log(error.error);
-
-          this.errorSnackBar( error.error )
-        }
-      });
-    }
-  }
-
-  createSnackBar() {
-    this._snackBar.open("Has añadido un nuevo cliente", "",{
-      duration: 2000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
-    })
-    window.location.href = "./index.html"
-  }
-
-  updateSnackBar() {
-    this._snackBar.open("Has actualizado al cliente", "",{
-      duration: 2000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
-    });
-    window.location.href = "./index.html"
-  }
-
-  errorSnackBar( error: string ) {
-    this._snackBar.open( error, "",{
-      duration: 3000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom'
-    });
+    this.dialogRef.close( usuario );
   }
 
 }

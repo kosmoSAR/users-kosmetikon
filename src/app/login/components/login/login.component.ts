@@ -39,7 +39,7 @@ export class InitialLoginComponent implements OnInit {
     this._userService.login( user ).subscribe({
       next: (resp:any) => {
         this.cookies.set('access_token', resp.body.token)
-        this.router.navigate(['dashboard'])
+        this.router.navigate(['users'])
       },
       error: (error:any) => {
         console.log(error);

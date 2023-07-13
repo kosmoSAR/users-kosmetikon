@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,14 +10,14 @@ import { DlgDeleteComponent } from '../dlg-delete/dlg-delete.component';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnInit{
+export class UsersListComponent implements OnInit, OnChanges{
 
   displayedColumns: string[] = ['nombre', 'apellido', 'fechaNacimiento', 'email', 'cargo', 'password', 'acciones'];
 
   public datos:any;
-  public cargos:any;
-
-  @Input() public userList!: any[];
+  
+  @Input() public userList: any[] = [];
+  @Input() public cargos: any[] = [];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public userInfo!: Usuarios;
@@ -25,11 +25,21 @@ export class UsersListComponent implements OnInit{
 
   constructor(private dialogDelete: MatDialog){}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.userList.length > 0) {
+      this.loadData();
+    }
+  }
+
   ngOnInit(): void {
-    console.log(this.userList);
+  }
+
+  loadData():any{
     this.dataSource = new MatTableDataSource( this.userList )
     this.dataSource.paginator = this.paginator;
+    console.log(this.userList);
   }
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -46,6 +56,12 @@ export class UsersListComponent implements OnInit{
     });
   }
 
+  @Output() user: EventEmitter<any> = new EventEmitter();
 
+  onUserEdit( obj: any ){
+    const { user, event} = obj;
+    console.log({user, event});
+    this.user.emit(obj)
+  }
 
 }

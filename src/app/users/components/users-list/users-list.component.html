@@ -8,14 +8,14 @@
 
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let user">
+      <td mat-cell *matCellDef="let user" [matTooltip]="user.NOMBRE">
           {{user.NOMBRE}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="apellido">
       <th mat-header-cell *matHeaderCellDef> Apellido </th>
-      <td mat-cell *matCellDef="let user">
+      <td mat-cell *matCellDef="let user" [matTooltip]="user.APELLIDO">
           {{user.APELLIDO}}
       </td>
     </ng-container>
@@ -23,7 +23,7 @@
     <!-- Weight Column -->
     <ng-container matColumnDef="fechaNacimiento">
       <th mat-header-cell *matHeaderCellDef> Fecha Nacimiento </th>
-      <td mat-cell *matCellDef="let user">
+      <td mat-cell *matCellDef="let user" [matTooltip]="user.FECHA_NACIMIENTO">
           {{user.FECHA_NACIMIENTO | date }}
       </td>
     </ng-container>
@@ -31,7 +31,7 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let user">
+      <td mat-cell *matCellDef="let user" [matTooltip]="user.EMAIL">
           {{user.EMAIL}}
       </td>
     </ng-container>
@@ -42,7 +42,7 @@
         <div style="display: flex;">
           {{user.ID_CARGO}}-
           <div *ngFor="let cargo of cargos" >
-            <span *ngIf="cargo.ID_CARGO === user.ID_CARGO">{{cargo.CARGO}}</span>
+            <span *ngIf="cargo.ID_CARGO === user.ID_CARGO" [matTooltip]="user.ID_CARGO + '-' + cargo.CARGO">{{cargo.CARGO}}</span>
           </div>
         </div>
       </td>
@@ -50,7 +50,7 @@
 
     <ng-container matColumnDef="password">
       <th mat-header-cell *matHeaderCellDef> Password </th>
-      <td mat-cell *matCellDef="let user">
+      <td mat-cell *matCellDef="let user" [matTooltip]="user.PASSWORD">
           {{user.PASSWORD}}
       </td>
     </ng-container>
@@ -59,11 +59,11 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let user; let i = index" style="text-align: right;">
         <a class="cursor" style="color: #1f516f; margin-right: 2rem;" matTooltip="Editar usuario"
-          (click)="openDialog(user , 'update')">
+          (click)="onUserEdit({ user , event:'update'})">
           <mat-icon>edit</mat-icon>
         </a>
         <a class="cursor" style="color: #e15639;" matTooltip="Eliminar usuario"
-          (click)="eliminar(user)">
+          (click)="onUserEdit({ user , event:'delete'})">
           <mat-icon>delete</mat-icon>
         </a>
       </td>
@@ -78,4 +78,5 @@
               [pageSizeOptions]="[5, 10, 25]"
               aria-label="Select page">
   </mat-paginator>
+
 </div>
