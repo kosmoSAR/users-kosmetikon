@@ -1,0 +1,61 @@
+<h1 mat-dialog-title style="display: flex; justify-content: space-between; margin-top: 1rem;">
+  <span *ngIf="data.event === 'new'; else update">Crea un nuevo usuario</span>
+  <ng-template #update>Acutaliza al usuario</ng-template>
+  <button mat-button mat-dialog-close>Close</button>
+</h1>
+<div mat-dialog-content>
+  <form class="form-new-user" [formGroup]="forms" (ngSubmit)="newEditUser()">
+    <div style="display: flex; justify-content: space-evenly;">
+      <mat-form-field style="margin-right: 1rem; width: 225px;">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Nuevo nombre" formControlName="nombre">
+      </mat-form-field>
+
+      <mat-form-field style="width: 225px;">
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="Nuevo apellido" formControlName="apellido">
+      </mat-form-field>
+    </div>
+
+    <div style="display: flex; justify-content: space-evenly;">
+      <mat-form-field style="margin-right: 1rem; width: 225px;">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field style="width: 225px;">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Nuevo correo" formControlName="email" >
+      </mat-form-field>
+    </div>
+
+    <div style="display: flex; justify-content: space-evenly;">
+      <mat-form-field style="margin-right: 1rem; width: 225px;">
+        <mat-label>Cargos</mat-label>
+        <input type="text"
+          placeholder="Pick one"
+          aria-label="Number"
+          matInput
+          [matAutocomplete]="auto"
+          #txtTagInput
+          (keyup)="filtro()"
+          formControlName="cargo">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let cargo of filteredOptions" [value]="cargo.ID_CARGO + '-' + cargo.CARGO">
+            {{cargo.CARGO}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" style="width: 225px;">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Nueva contraseña" formControlName="password">
+      </mat-form-field>
+    </div>
+
+    <button mat-stroked-button color="primary" type="submit" [disabled]="forms.invalid" >Aceptar</button>
+</form>
+</div>

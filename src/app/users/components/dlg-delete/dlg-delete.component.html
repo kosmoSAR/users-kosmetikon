@@ -1,0 +1,17 @@
+<div *ngIf="!onDelete">
+  <h2 style="text-align: center; margin-top: 1rem;">Escribe la contraseña</h2>
+
+  <mat-form-field class="example-full-width" style="margin: 1rem;">
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="Contraseña" (keyup.enter)="PasswordEdit()" #txtTagInput>
+  </mat-form-field>
+</div>
+
+<div style="margin: 1rem;" *ngIf="onDelete">
+  <h2 style="margin: 1rem;">Are you sure that you want to delete {{data.NOMBRE}} ?</h2>
+  <div class="onDeleteButtons">
+    <button mat-raised-button (click)="closedlg()">close</button>
+    <button mat-raised-button color="warn" (click)="deleteUser()">Ok</button>
+  </div>
+</div>
+

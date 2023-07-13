@@ -1,0 +1,13 @@
+<form [formGroup]="forms" (ngSubmit)="ingresar()">
+  <mat-form-field class="ancho">
+    <mat-label>Usuario</mat-label>
+    <input matInput autocomplete="off" formControlName="email">
+  </mat-form-field>
+  <mat-form-field class="ancho">
+    <mat-label>Contraseña</mat-label>
+    <input type="password" matInput autocomplete="off" formControlName="password">
+  </mat-form-field>
+  <br>
+  <button type="submit" mat-raised-button color="primary" class="ancho button"
+    [disabled]="forms.invalid">Ingresar</button>
+</form>

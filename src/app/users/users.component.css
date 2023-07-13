@@ -1,0 +1,28 @@
+.title-div{
+  display: flex;
+  justify-content: center;
+}
+
+p{
+  margin-top: 5rem;
+  width: 370px;
+}
+
+mat-toolbar{
+  border: 1px solid black;
+}
+
+.users-home{
+  margin-top: 8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.boton-crear{
+  margin-right: 4rem;
+  margin-left: auto;
+}
+
+.user-table{
+  margin: 1rem 1rem;
+}
