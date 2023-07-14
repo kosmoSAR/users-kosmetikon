@@ -50,10 +50,10 @@ export class UsersComponent implements OnInit {
     //   })
     // )
 
-    this.loadData()
+    this.loadData1()
   }
 
-  loadData(){
+  loadData1(){
     //Forma con RxJS petición en serie.
     const request1 = this._userService.getUserList();
     const request2 = this._userService.getPositionList();
@@ -145,3 +145,4 @@ export class UsersComponent implements OnInit {
   };
 
 }
+
