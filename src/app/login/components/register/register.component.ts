@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { lastValueFrom } from 'rxjs';
 import { Usuarios } from 'src/app/interfaces/users.interfaces';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -60,7 +61,7 @@ export class RegisterComponent {
     return Number(id);
   }
 
-  newUser() {
+  async newUser() {
 
     const usuario: Usuarios = {
       NOMBRE: this.forms.value.nombre,
@@ -71,18 +72,19 @@ export class RegisterComponent {
       PASSWORD: this.forms.value.password
     }
 
-    this._userService.newUser(usuario).subscribe({
-      next: (resp: any) => {
-        this.createSnackBar()
-      },
-      error: (error: any) => {
-        console.log(error.error);
-        this.errorSnackBar(error.error)
-      },
-      complete: () => {
-        this.login(usuario)
+    try {
+      const registerUser$ = this._userService.newUser( usuario );
+      const resultado1 = await lastValueFrom(registerUser$)
+
+      if ( resultado1.status == '201') {
+        this.createSnackBar();
+        this.login( usuario );
+      } else {
+        this.errorSnackBar( resultado1.message );
       }
-    });
+    } catch (error) {
+      throw new Error('Erros al tratar de registra usuario')
+    }
   }
 
   createSnackBar() {
@@ -108,14 +110,13 @@ export class RegisterComponent {
       PASSWORD: usuario.PASSWORD
     }
 
-    console.log(loginUser);
-
-
     this._userService.login(loginUser).subscribe({
       next: (resp => {
         this.cookies.set('access_token', resp.body.token)
-
         this.router.navigate(['dashboard'])
+      }),
+      error: ( error => {
+        this.errorSnackBar(error)
       })
     })
   }

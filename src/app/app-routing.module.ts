@@ -5,8 +5,8 @@ import { LoginGuardian, LoginGuardian2 } from './guard/login-guardian';
 
 
 const routes: Routes = [
-  { path: '', component: LoginComponent, canActivate:[LoginGuardian2]},
-  { path:'users', loadChildren: () => import('./users/users.module').then(res => res.UsersModule), canActivate:[LoginGuardian]}
+  { path: '', component: LoginComponent },
+  { path:'users', loadChildren: () => import('./users/users.module').then(res => res.UsersModule), canActivate:[LoginGuardian]},
 ];
 
 @NgModule({

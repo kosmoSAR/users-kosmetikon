@@ -26,7 +26,7 @@ export class UsersListComponent implements OnInit, OnChanges{
   constructor(private dialogDelete: MatDialog){}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.userList.length > 0) {
+    if ( this.userList ) {
       this.loadData();
     }
   }

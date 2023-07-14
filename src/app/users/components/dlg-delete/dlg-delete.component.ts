@@ -22,7 +22,7 @@ export class DlgDeleteComponent {
   }
 
   closedlg(){
-    this.dialogRef.close()
+    this.dialogRef.close( 'null' )
   }
 
 }

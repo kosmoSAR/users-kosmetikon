@@ -18,7 +18,7 @@ export class UsersService {
   }
 
   newUser(data: Usuarios): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/newUser`, data , { headers: {'Content-Type': 'application/json'} });
+    return this.http.post<any>(`${this.baseUrl}/newUser`, data , { headers: {'Content-Type': 'application/json'}, observe: 'response' });
   }
 
   updateUser(data: Usuarios): Observable<any> {
