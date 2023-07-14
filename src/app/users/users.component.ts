@@ -4,7 +4,7 @@ import { Usuarios } from '../interfaces/users.interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgUsersComponent } from './components/dlg-users/dlg-users.component';
 import { DlgDeleteComponent } from './components/dlg-delete/dlg-delete.component';
-import { Subject, forkJoin } from 'rxjs';
+import { Observable, Subject, concatMap, forkJoin } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorService } from '../services/behavior.service';
 
@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit {
 
   public obsSubject = new Subject<any>()
 
-  public usersList: any[] = [];
+  public usersList: Usuarios[] = [];
   public cargos: any;
   public cargoSeleccionado: any;
 
@@ -31,8 +31,48 @@ export class UsersComponent implements OnInit {
       this.usersList = data;
     })
 
-    // this.loadData1();
+    // const request1 = this._userService.getUserList();
+    // const request2 = this._userService.getPositionList();
 
+    // forkJoin( request1 , request2 ).subscribe(
+    // (res) => {
+    //   this.obsSubject.next(res[0].data)
+    //   this.cargos = res[1]
+    // },
+    // (error) => {
+    //   console.log(error);
+    //   this.message(error.message)
+    // })
+
+    // this._userService.getPositionList().pipe(
+    //   concatMap( resp => {
+    //     console.log(resp);
+    //   })
+    // )
+
+    this.loadData()
+  }
+
+  loadData(){
+    //Forma con RxJS petición en serie.
+    const request1 = this._userService.getUserList();
+    const request2 = this._userService.getPositionList();
+
+    request1.pipe(
+      concatMap( (value: any) => {
+        this.obsSubject.next( value.data )
+        return request2;
+      })
+    ).subscribe( value => {
+      this.cargos = value
+    },
+    error => {
+      console.log(error);
+    })
+  }
+
+  loadData2(){
+    //Forma con RxJS petición en paralelo.
     const request1 = this._userService.getUserList();
     const request2 = this._userService.getPositionList();
 
@@ -44,21 +84,8 @@ export class UsersComponent implements OnInit {
     (error) => {
       console.log(error);
       this.message(error.message)
-    }
-    )
+    })
   }
-
-  // loadData1 = async () => {
-  //   await this._behavior.obsSubject$.subscribe((resp) => {
-  //     this.obsSubject.next(resp.data)
-  //   });
-
-  //   await this._userService.getPositionList().subscribe({
-  //     next: (resp) => {
-  //       this.cargos = resp
-  //     }
-  //   });
-  // }
 
   onUser(obj: any) {
     const { user, event } = obj;
