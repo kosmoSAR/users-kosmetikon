@@ -15,18 +15,29 @@ export class BehaviorService {
   private obsSubject:BehaviorSubject<any> = new BehaviorSubject<any[]>([]);
   private obsMessage:BehaviorSubject<string> = new BehaviorSubject<string>("");
   //Convertirlo em un observable
-  public obsSubject$ = this.obsSubject.asObservable();
-  public obsMessage$ = this.obsMessage.asObservable();
+  private obsSubject$ = this.obsSubject.asObservable();
+  private obsMessage$ = this.obsMessage.asObservable();
+
+
+  getUserList$() : Observable<Usuarios[]> {
+    return this.obsSubject$;
+  }
+
+  getMessage$(){
+    return this.obsMessage$;
+  }
 
   getDatos():void {
-    this._userServie.getUserList().subscribe( (resp) => {
+    this._userServie.getUserList().pipe(
+      map( users => users.data )
+    ).subscribe( (resp) => {
         this.obsSubject.next( resp );
     } )
   }
 
   newUser( user: Usuarios ){
     this._userServie.newUser( user ).subscribe( ( resp ) => {
-      this.obsMessage.next( resp.message );
+      this.obsMessage.next( resp.body.message );
       this.getDatos()
     } )
   }

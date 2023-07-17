@@ -46,7 +46,7 @@ export class InitialLoginComponent implements OnInit {
         this.error()
       }
     })
-    //jsanti@gmail.com
+    //santi@gmail.com
     //123456
   }
 

@@ -31,26 +31,7 @@ export class UsersComponent implements OnInit {
       this.usersList = data;
     })
 
-    // const request1 = this._userService.getUserList();
-    // const request2 = this._userService.getPositionList();
-
-    // forkJoin( request1 , request2 ).subscribe(
-    // (res) => {
-    //   this.obsSubject.next(res[0].data)
-    //   this.cargos = res[1]
-    // },
-    // (error) => {
-    //   console.log(error);
-    //   this.message(error.message)
-    // })
-
-    // this._userService.getPositionList().pipe(
-    //   concatMap( resp => {
-    //     console.log(resp);
-    //   })
-    // )
-
-    this.loadData1()
+    this.loadData2()
   }
 
   loadData1(){
@@ -76,7 +57,7 @@ export class UsersComponent implements OnInit {
     const request1 = this._userService.getUserList();
     const request2 = this._userService.getPositionList();
 
-    forkJoin( request1 , request2 ).subscribe(
+    forkJoin( [request1 , request2] ).subscribe(
     (res) => {
       this.obsSubject.next(res[0].data)
       this.cargos = res[1]
@@ -103,8 +84,11 @@ export class UsersComponent implements OnInit {
       dialogref.beforeClosed().subscribe((resp) => {
         if (resp !== 'null') {
           this._behavior.deleteUser(resp)
-          this._behavior.obsMessage$.subscribe((message) => {
-            this.message(message);
+          this._behavior.getUserList$().subscribe( users => {
+            this.obsSubject.next(users)
+          } )
+          this._behavior.getMessage$().subscribe( message => {
+            this.message(message)
           })
         }
       })
@@ -116,8 +100,11 @@ export class UsersComponent implements OnInit {
         dialogref.beforeClosed().subscribe((resp) => {
           if (resp) {
             this._behavior.newUser(resp);
-            this._behavior.obsMessage$.subscribe((message) => {
-              this.message(message);
+            this._behavior.getUserList$().subscribe( users => {
+              this.obsSubject.next(users)
+            } )
+            this._behavior.getMessage$().subscribe( message => {
+              this.message(message)
             })
           }
         })
@@ -127,8 +114,11 @@ export class UsersComponent implements OnInit {
         dialogref.beforeClosed().subscribe((resp) => {
           if (resp) {
             this._behavior.updateUser(resp);
-            this._behavior.obsMessage$.subscribe((message) => {
-              this.message(message);
+            this._behavior.getUserList$().subscribe( users => {
+              this.obsSubject.next(users)
+            } )
+            this._behavior.getMessage$().subscribe( message => {
+              this.message(message)
             })
           }
         })
