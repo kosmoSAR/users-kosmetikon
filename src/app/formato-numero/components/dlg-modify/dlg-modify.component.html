@@ -8,7 +8,7 @@
   <form [formGroup]="forms" (ngSubmit)="modify()" style="display: flex; flex-direction: column;">
       <mat-form-field style="margin: 1rem;">
         <mat-label>Formato</mat-label>
-        <mat-select matNativeControl formControlName="millesFormat">
+        <mat-select matNativeControl formControlName="millesFormat" (selectionChange)="decimalChange($event)">
           <mat-option value="">Opciones</mat-option>
           <mat-option value="1">Milesimas Con <strong>.</strong></mat-option>
           <mat-option value="2">Milesimas Con <strong>,</strong></mat-option>
@@ -17,10 +17,10 @@
 
       <mat-form-field *ngIf="forms.value.millesFormat" style="margin: 1rem;">
         <mat-label>Formato</mat-label>
-        <mat-select matNativeControl formControlName="decimaFormat" (change)="decimalChange($event)">
+        <mat-select matNativeControl formControlName="decimaFormat">
           <mat-option value="">Opciones</mat-option>
-          <mat-option [disabled]="forms.value.millesFormat == 1" value="1">Decimales Con <strong>.</strong></mat-option>
-          <mat-option [disabled]="forms.value.millesFormat == 2" value="2">Decimales Con <strong>,</strong></mat-option>
+          <mat-option [disabled]="forms.value.millesFormat == 1" [value]="1">Decimales Con <strong>.</strong></mat-option>
+          <mat-option [disabled]="forms.value.millesFormat == 2" [value]="2">Decimales Con <strong>,</strong></mat-option>
         </mat-select>
       </mat-form-field>
 

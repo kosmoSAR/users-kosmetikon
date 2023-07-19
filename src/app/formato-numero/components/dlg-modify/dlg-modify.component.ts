@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Format } from 'src/app/interfaces/format.interface';
@@ -36,8 +36,14 @@ export class DlgModifyComponent {
 
   }
 
-  decimalChange(event: Event){
-    console.log(event);
+  decimalChange(event: any){
+    if (event.value == 1) {
+      this.forms.controls["decimaFormat"].setValue(2);
+    }
+
+    if (event.value == 2) {
+      this.forms.controls["decimaFormat"].setValue(1);
+    }
   }
 
 }

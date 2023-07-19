@@ -46,7 +46,7 @@ export class InitialLoginComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: (resp:any) => {
         this.cookies.set('access_token', resp.body.token)
-        this.router.navigate(['users'])
+        this.router.navigate(['/users'])
       },
       error: (error:any) => {
         console.log(error);
