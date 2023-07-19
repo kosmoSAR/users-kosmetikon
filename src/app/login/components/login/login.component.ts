@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class InitialLoginComponent implements OnInit {
+export class InitialLoginComponent implements OnInit, OnDestroy {
 
   public forms:FormGroup;
+  notifier$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private fb:FormBuilder, private _snackBar:MatSnackBar, private router:Router,
     private cookies:CookieService, private _authentication: AuthenticationService){
@@ -29,14 +31,19 @@ export class InitialLoginComponent implements OnInit {
     }
   }
 
-  ingresar(){
+  ngOnDestroy(): void {
+    this.notifier$.next(true);
+    this.notifier$.complete();
+  }
 
+  ingresar(){
     const user:any = {
       EMAIL: this.forms.value.email,
       PASSWORD: this.forms.value.password
     }
-
-    this._authentication.login( user ).subscribe({
+    this._authentication.login( user ).pipe(
+      takeUntil(this.notifier$)
+    ).subscribe({
       next: (resp:any) => {
         this.cookies.set('access_token', resp.body.token)
         this.router.navigate(['users'])

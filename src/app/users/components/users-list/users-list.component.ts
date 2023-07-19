@@ -10,11 +10,12 @@ import { DlgDeleteComponent } from '../dlg-delete/dlg-delete.component';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnInit, OnChanges{
+export class UsersListComponent implements OnChanges{
 
   displayedColumns: string[] = ['nombre', 'apellido', 'fechaNacimiento', 'email', 'cargo', 'password', 'acciones'];
 
   public datos:any;
+  public loading: boolean = true;
 
   @Input() public userList: any[] = [];
   @Input() public cargos: any[] = [];
@@ -26,12 +27,10 @@ export class UsersListComponent implements OnInit, OnChanges{
   constructor(private dialogDelete: MatDialog){}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ( this.userList ) {
+    if ( this.userList.length > 0 ) {
       this.loadData();
+      this.loading = false
     }
-  }
-
-  ngOnInit(): void {
   }
 
   loadData():any{

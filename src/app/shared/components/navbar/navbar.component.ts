@@ -46,16 +46,4 @@ export class NavbarComponent {
     });
   };
 
-  usersRoute(){
-    this.router.navigate(['users'])
-  }
-
-  pictureRoute(){
-    this.router.navigate(['pictures'])
-  }
-
-  formatRoute(){
-    this.router.navigate(['format'])
-  }
-
 }

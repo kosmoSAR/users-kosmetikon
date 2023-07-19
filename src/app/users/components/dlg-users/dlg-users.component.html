@@ -2,7 +2,7 @@
   <h2 mat-dialog-title style="display: flex; justify-content: space-between; margin-top: 1rem;">
     <span *ngIf="data.event === 'new'; else update">Crea un nuevo usuario</span>
     <ng-template #update>Acutaliza al usuario</ng-template>
-    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button mat-dialog-close><mat-icon style="margin-right: 0;">close</mat-icon></button>
   </h2>
   <div mat-dialog-content>
     <form class="form-new-user" [formGroup]="forms" (ngSubmit)="newEditUser()">
@@ -57,7 +57,7 @@
         </mat-form-field>
       </div>
 
-      <button mat-stroked-button color="primary" type="submit" [disabled]="forms.invalid" >Aceptar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="forms.invalid" >Aceptar</button>
   </form>
   </div>
 </div>

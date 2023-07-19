@@ -1,17 +1,19 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Usuarios } from 'src/app/interfaces/users.interfaces';
 import { UsersService } from '../../services/users.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'dlg-users',
   templateUrl: './dlg-users.component.html',
   styleUrls: ['./dlg-users.component.css']
 })
-export class DlgUsersComponent {
+export class DlgUsersComponent implements OnDestroy {
 
   public forms!: FormGroup;
+  notifier$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('txtTagInput') public tagInput!: ElementRef<HTMLInputElement>
   public cargos:any = [];
@@ -47,19 +49,26 @@ export class DlgUsersComponent {
   }
 
   ngOnInit(): void {
-    this._userService.getPositionList().subscribe({
-      next: (resp) => {
-        this.cargos = resp;
-        this.filteredOptions = this.cargos;
-      },
-      error: (error:Error) => {
-        console.log(error);
-      }
-    });
-  }
+    this._userService.getPositionList().pipe(
+      takeUntil(this.notifier$)
+      ).subscribe({
+        next: (resp) => {
+          this.cargos = resp;
+          this.filteredOptions = this.cargos;
+        },
+        error: (error:Error) => {
+          console.log(error);
+        }
+      });
+    }
 
-  filtro(){
-    this._filter(this.tagInput.nativeElement.value)
+    ngOnDestroy(): void {
+      this.notifier$.next(true);
+      this.notifier$.complete();
+    }
+
+    filtro(){
+      this._filter(this.tagInput.nativeElement.value)
   }
 
   private _filter(value: string): any {

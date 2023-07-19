@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Usuarios } from '../interfaces/users.interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgUsersComponent } from './components/dlg-users/dlg-users.component';
 import { DlgDeleteComponent } from './components/dlg-delete/dlg-delete.component';
-import { Subject, concatMap, forkJoin } from 'rxjs';
+import { Subject, concatMap, forkJoin, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsersService } from './services/users.service';
 import { UsersDataService } from './services/users-data.service';
@@ -14,7 +14,9 @@ import { UsersDataService } from './services/users-data.service';
   styleUrls: ['./users.component.css']
 })
 
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
+
+  notifier$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private _userService: UsersService, public dialog: MatDialog, private _snackBar: MatSnackBar,
     private _behavior: UsersDataService) { }
@@ -26,12 +28,16 @@ export class UsersComponent implements OnInit {
   public cargoSeleccionado: any;
 
   ngOnInit(): void {
-
     this.obsSubject.subscribe( (data) => {
       this.usersList = data;
     })
 
     this.loadData2()
+  }
+
+  ngOnDestroy(): void {
+    this.notifier$.next(true);
+    this.notifier$.complete();
   }
 
   loadData1(){
@@ -57,7 +63,9 @@ export class UsersComponent implements OnInit {
     const request1 = this._userService.getUserList();
     const request2 = this._userService.getPositionList();
 
-    forkJoin( [request1 , request2] ).subscribe(
+    forkJoin( [request1 , request2] ).pipe(
+      takeUntil(this.notifier$)
+    ).subscribe(
     (res) => {
       this.obsSubject.next(res[0].data)
       this.cargos = res[1]

@@ -1,9 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { lastValueFrom } from 'rxjs';
+import { Subject, lastValueFrom, takeUntil } from 'rxjs';
 import { Usuarios } from 'src/app/interfaces/users.interfaces';
 import { AuthenticationService } from '../../services/authentication.service';
 import { UsersService } from 'src/app/users/services/users.service';
@@ -12,9 +12,10 @@ import { UsersService } from 'src/app/users/services/users.service';
   selector: 'register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy, OnInit{
 
   public forms!: FormGroup;
+  private notifier$: Subject<boolean> = new Subject<boolean>();
 
   @ViewChild('txtTagInput') public tagInput!: ElementRef<HTMLInputElement>
   public cargos: any = [];
@@ -32,16 +33,24 @@ export class RegisterComponent {
     })
   }
 
+
   ngOnInit(): void {
-    this._userService.getPositionList().subscribe({
-      next: (resp) => {
-        this.cargos = resp;
-        this.filteredOptions = this.cargos;
-      },
-      error: (error: Error) => {
-        console.log(error);
-      }
-    });
+    this._userService.getPositionList().pipe(
+      takeUntil(this.notifier$)
+      ).subscribe({
+        next: (resp) => {
+          this.cargos = resp;
+          this.filteredOptions = this.cargos;
+        },
+        error: (error: Error) => {
+          console.log(error);
+        }
+      });
+    }
+
+  ngOnDestroy(): void {
+    this.notifier$.next(true);
+    this.notifier$.complete();
   }
 
   filtro() {
@@ -63,18 +72,18 @@ export class RegisterComponent {
   }
 
   async newUser() {
-
-    const usuario: Usuarios = {
-      NOMBRE: this.forms.value.nombre,
-      APELLIDO: this.forms.value.apellido,
-      FECHA_NACIMIENTO: this.forms.value.fechaNacimiento,
-      EMAIL: this.forms.value.email,
-      ID_CARGO: this.obtenerIdCargo(this.forms.value.cargo),
-      PASSWORD: this.forms.value.password
-    }
-
     try {
-      const registerUser$ = this._userService.newUser( usuario );
+      const usuario: Usuarios = {
+        NOMBRE: this.forms.value.nombre,
+        APELLIDO: this.forms.value.apellido,
+        FECHA_NACIMIENTO: this.forms.value.fechaNacimiento,
+        EMAIL: this.forms.value.email,
+        ID_CARGO: this.obtenerIdCargo(this.forms.value.cargo),
+        PASSWORD: this.forms.value.password
+      }
+      const registerUser$ = this._userService.newUser( usuario ).pipe(
+        takeUntil(this.notifier$)
+      );
       const resultado1 = await lastValueFrom(registerUser$)
 
       if ( resultado1.status == '201') {
@@ -111,7 +120,9 @@ export class RegisterComponent {
       PASSWORD: usuario.PASSWORD
     }
 
-    this._authentication.login(loginUser).subscribe({
+    this._authentication.login(loginUser).pipe(
+      takeUntil(this.notifier$)
+    ).subscribe({
       next: (resp => {
         this.cookies.set('access_token', resp.body.token)
         this.router.navigate(['dashboard'])

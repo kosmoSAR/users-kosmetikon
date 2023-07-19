@@ -20,6 +20,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    RouterModule
   ],
   exports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     NavbarComponent,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    RouterModule
   ]
 })
 export class SharedModule { }

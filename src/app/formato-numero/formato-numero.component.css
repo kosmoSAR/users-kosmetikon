@@ -22,7 +22,7 @@
 .number_div{
   display: flex;
   justify-content: center;
-  height: 70%;
+  height: 60%;
 }
 
 .numbers, .change_button{
