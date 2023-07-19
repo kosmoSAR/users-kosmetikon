@@ -1,0 +1,44 @@
+.format_button{
+  display: flex;
+  justify-content: end;
+  margin: 1rem;
+}
+
+.title{
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.title h1{
+  font-size: 3rem;
+  font-family: fantasy;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+.picture_table{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+picture-list{
+  width: 95%;
+}
+
+.add_button{
+  width: 90%;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 1rem;
+}
+
+.add_button button{
+  height: 3rem;
+  font-size: 1.2rem;
+}

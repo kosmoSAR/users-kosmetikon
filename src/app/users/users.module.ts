@@ -10,9 +10,6 @@ import { UsersComponent } from './users.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { DlgUsersComponent } from './components/dlg-users/dlg-users.component';
 import { DlgDeleteComponent } from './components/dlg-delete/dlg-delete.component';
-import { LogoutComponent } from './components/logout/logout.component';
-
-
 
 @NgModule({
   declarations: [
@@ -20,7 +17,6 @@ import { LogoutComponent } from './components/logout/logout.component';
     UsersListComponent,
     DlgUsersComponent,
     DlgDeleteComponent,
-    LogoutComponent
   ],
   imports: [
     CommonModule,

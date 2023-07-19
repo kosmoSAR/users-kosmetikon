@@ -1,0 +1,36 @@
+<div class="principal">
+  <div style="display: flex; flex-direction: row-reverse;">
+    <button mat-button [mat-dialog-close]="true">
+      <mat-icon style="margin-right: 0;">close</mat-icon>
+    </button>
+    <h2>Escoge El Formato</h2>
+  </div>
+  <form [formGroup]="forms" (ngSubmit)="modify()" style="display: flex; flex-direction: column;">
+      <mat-form-field style="margin: 1rem;">
+        <mat-label>Formato</mat-label>
+        <mat-select matNativeControl formControlName="millesFormat">
+          <mat-option value="">Opciones</mat-option>
+          <mat-option value="1">Milesimas Con <strong>.</strong></mat-option>
+          <mat-option value="2">Milesimas Con <strong>,</strong></mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="forms.value.millesFormat" style="margin: 1rem;">
+        <mat-label>Formato</mat-label>
+        <mat-select matNativeControl formControlName="decimaFormat" (change)="decimalChange($event)">
+          <mat-option value="">Opciones</mat-option>
+          <mat-option [disabled]="forms.value.millesFormat == 1" value="1">Decimales Con <strong>.</strong></mat-option>
+          <mat-option [disabled]="forms.value.millesFormat == 2" value="2">Decimales Con <strong>,</strong></mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field style="margin: 1rem;">
+        <mat-label>Introduce el número</mat-label>
+        <input matInput placeholder="100" type="number" formControlName="number">
+        <mat-hint align="start" *ngIf="forms.value.millesFormat == 2"><span>{{ forms.value.number | number:'1.2-5' }}</span> </mat-hint>
+        <mat-hint align="start" *ngIf="forms.value.millesFormat != 2"><span>{{ forms.value.number | format }}</span> </mat-hint>
+      </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary" [disabled]="forms.invalid">Cambiar</button>
+  </form>
+</div>

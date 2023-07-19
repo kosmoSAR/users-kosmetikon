@@ -10,10 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './login/login.module';
 import { SharedModule } from './shared/shared.module';
+import { FormatoNumeroModule } from './formato-numero/formato-numero.module';
+import { PicturesModuleModule } from './pictures-module/pictures-module.module';
 
 //Servicios
 import { CookieService } from 'ngx-cookie-service';
-import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UsersModule } from './users/users.module';
     HttpClientModule,
     LoginModule,
     SharedModule,
-    UsersModule
+    PicturesModuleModule,
+    FormatoNumeroModule
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -1,7 +1,5 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-dlg-delete',

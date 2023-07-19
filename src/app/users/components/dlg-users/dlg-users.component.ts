@@ -1,14 +1,13 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { Usuarios } from 'src/app/interfaces/users.interfaces';
-import { UsersService } from 'src/app/services/users.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'dlg-users',
   templateUrl: './dlg-users.component.html',
+  styleUrls: ['./dlg-users.component.css']
 })
 export class DlgUsersComponent {
 
@@ -19,7 +18,7 @@ export class DlgUsersComponent {
   public filteredOptions:any;
   public cargoSeleccionado:any;
 
-  constructor(private fb:FormBuilder, private _userService: UsersService, private _snackBar: MatSnackBar, private router:Router,
+  constructor(private fb:FormBuilder, private _userService: UsersService,
     public dialogRef: MatDialogRef<DlgUsersComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any){
     {

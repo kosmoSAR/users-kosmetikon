@@ -1,0 +1,14 @@
+<div class="principal">
+  <h2 mat-dialog-title style="color: white; text-align: center;">Agrega una imagen</h2>
+  <div mat-dialog-content>
+      <ngx-dropzone style="margin-bottom: 1rem;" [accept]="'image/*'" (change)="onSelect($event)">
+        <ngx-dropzone-label>Sueltalo aquí</ngx-dropzone-label>
+        <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)" [file]="f">
+          <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+        </ngx-dropzone-image-preview>
+      </ngx-dropzone>
+
+      <button mat-raised-button color="primary" type="button" (click)="createPicture()">Aceptar</button>
+    <!-- </form> -->
+  </div>
+</div>

@@ -45,10 +45,6 @@ export class UsersListComponent implements OnInit, OnChanges{
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openDialog( user:any, event: string ){
-
-  }
-
   eliminar( user: any ){
     this.dialogDelete.open(DlgDeleteComponent, {
       data: { EMAIL: user.EMAIL, NOMBRE: user.NOMBRE},

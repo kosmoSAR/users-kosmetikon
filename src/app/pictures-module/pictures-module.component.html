@@ -1,0 +1,15 @@
+<shared-navbar></shared-navbar>
+<div class="title">
+  <h1>Lista De Imágenes 🧩</h1>
+</div>
+<div>
+  <div class="add_button">
+    <button mat-raised-button color="primary" (click)="openDialogAdd()">
+      Agregar Imagen
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="picture_table">
+    <picture-list [pictureList]="pictureList" (picture)="openDialogDelete($event)"></picture-list>
+  </div>
+</div>

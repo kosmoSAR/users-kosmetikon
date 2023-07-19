@@ -3,12 +3,14 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: #bdc3c7; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #bdc3c7, #2c3e50); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #bdc3c7, #2c3e50);
+.mdc-dialog__surface{
+  background-color: transparent !important;
+}
+
+body{
+  background-image: url(./assets/fondo.png);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .example-spacer {
@@ -18,7 +20,7 @@ body {
 /*Scroll bar*/
 body::-webkit-scrollbar {
   width: 10px;
-  background: #2c3e50;
+  background: #abcdd4;
 }
 body::-webkit-scrollbar-thumb {
   background: #e8edec;

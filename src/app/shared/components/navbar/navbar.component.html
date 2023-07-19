@@ -1,0 +1,13 @@
+<mat-toolbar>
+  <span>Kosmetikon</span>
+  <span class="example-spacer"></span>
+  <div class="paths">
+    <a (click)="usersRoute()">Usuarios</a>
+    <a (click)="pictureRoute()">Imágenes</a>
+    <a (click)="formatRoute()">Formatos</a>
+  </div>
+  <span class="example-spacer"></span>
+  <div style="margin: 1rem; justify-content: end; display: flex; ">
+    <button mat-raised-button color="primary" (click)="logout()">LogOut</button>
+  </div>
+</mat-toolbar>

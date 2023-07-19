@@ -1,0 +1,10 @@
+.paths a{
+  margin: 0 1rem;
+  text-decoration: none;
+  color: rgb(78, 78, 211);
+  cursor: pointer;
+}
+
+.paths a:hover{
+  color: rgb(7, 10, 54);
+}

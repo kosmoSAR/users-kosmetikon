@@ -1,0 +1,39 @@
+<div class="mat-elevation-z8">
+  <div style="display: flex; justify-content: center; align-items: center;" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngIf="!loading">
+    <table mat-table [dataSource]="data" >
+      <ng-container matColumnDef="FECHA">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let element" class="td-date">{{element.FECHA | date }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ENLACE">
+        <th mat-header-cell *matHeaderCellDef>Enlace</th>
+        <td mat-cell *matCellDef="let element">
+          <a class="cursor download" style="color: blue;" matTooltip="Descargar Imagen" (click)="downLoad(element)">
+            {{element.ENLACE}}
+          </a>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="td-delete">
+          <a class="cursor" style="color: #e15639;" matTooltip="Eliminar imagen"
+              (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+</div>

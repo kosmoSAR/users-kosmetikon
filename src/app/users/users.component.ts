@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../services/users.service';
 import { Usuarios } from '../interfaces/users.interfaces';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgUsersComponent } from './components/dlg-users/dlg-users.component';
 import { DlgDeleteComponent } from './components/dlg-delete/dlg-delete.component';
-import { Observable, Subject, concatMap, forkJoin } from 'rxjs';
+import { Subject, concatMap, forkJoin } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorService } from '../services/behavior.service';
+import { UsersService } from './services/users.service';
+import { UsersDataService } from './services/users-data.service';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +17,7 @@ import { BehaviorService } from '../services/behavior.service';
 export class UsersComponent implements OnInit {
 
   constructor(private _userService: UsersService, public dialog: MatDialog, private _snackBar: MatSnackBar,
-    private _behavior: BehaviorService) { }
+    private _behavior: UsersDataService) { }
 
   public obsSubject = new Subject<any>()
 

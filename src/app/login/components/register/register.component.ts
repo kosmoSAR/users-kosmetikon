@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { lastValueFrom } from 'rxjs';
 import { Usuarios } from 'src/app/interfaces/users.interfaces';
-import { UsersService } from 'src/app/services/users.service';
+import { AuthenticationService } from '../../services/authentication.service';
+import { UsersService } from 'src/app/users/services/users.service';
 
 @Component({
   selector: 'register',
@@ -19,8 +20,8 @@ export class RegisterComponent {
   public cargos: any = [];
   public filteredOptions: any;
 
-  constructor(private fb: FormBuilder, private _userService: UsersService, private _snackBar: MatSnackBar, private router: Router,
-    private cookies: CookieService) {
+  constructor(private fb: FormBuilder, private _userService: UsersService , private _snackBar: MatSnackBar, private router: Router,
+    private cookies: CookieService, private _authentication: AuthenticationService) {
     this.forms = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
@@ -110,7 +111,7 @@ export class RegisterComponent {
       PASSWORD: usuario.PASSWORD
     }
 
-    this._userService.login(loginUser).subscribe({
+    this._authentication.login(loginUser).subscribe({
       next: (resp => {
         this.cookies.set('access_token', resp.body.token)
         this.router.navigate(['dashboard'])

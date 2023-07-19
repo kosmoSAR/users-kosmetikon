@@ -1,0 +1,16 @@
+<shared-navbar></shared-navbar>
+<div class="title">
+  <h1>Formato Del Número 🧮</h1>
+</div>
+<div class="number_div">
+  <div class="numbers">
+    <h2 *ngIf="formato != 2 && principal_number">{{ principal_number | format }}</h2>
+    <h2 *ngIf="formato == 2 && principal_number">{{ principal_number | number:'1.2-5' }}</h2>
+  </div>
+  <div class="change_button">
+    <button mat-raised-button color="primary" style="width: 12rem; height: 5rem; font-size: 1.5rem;" (click)="openModifyDialog()">
+      Modificar
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
+</div>

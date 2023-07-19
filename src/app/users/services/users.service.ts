@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Usuarios } from '../interfaces/users.interfaces';
+import { Usuarios } from 'src/app/interfaces/users.interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class UsersService {
 
   private baseUrl = 'http://kosmetikon.myqnapcloud.com:44444';
@@ -29,17 +28,10 @@ export class UsersService {
     return this.http.delete<any>(`${this.baseUrl}/deleteUser`, {body: data} );
   }
 
-  login(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, data , { headers: {'Content-Type': 'application/json'}, observe: 'response' });
-  }
-
-  logout(): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/logout`);
-  }
-
   getPositionList(): Observable<any>{
     return this.http.get<any>(`${this.baseUrl}/getPositionList`).pipe(
       map( ( cargos ) => cargos.data )
     );
   }
+
 }

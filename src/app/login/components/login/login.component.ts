@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { UsersService } from 'src/app/services/users.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'login',
@@ -14,8 +14,8 @@ export class InitialLoginComponent implements OnInit {
 
   public forms:FormGroup;
 
-  constructor(private fb:FormBuilder, private _snackBar:MatSnackBar, private router:Router, private _userService: UsersService,
-    private cookies:CookieService){
+  constructor(private fb:FormBuilder, private _snackBar:MatSnackBar, private router:Router,
+    private cookies:CookieService, private _authentication: AuthenticationService){
     this.forms = this.fb.group({
       email: ["", Validators.required],
       password: ["", [Validators.required, Validators.minLength(2)]]
@@ -36,7 +36,7 @@ export class InitialLoginComponent implements OnInit {
       PASSWORD: this.forms.value.password
     }
 
-    this._userService.login( user ).subscribe({
+    this._authentication.login( user ).subscribe({
       next: (resp:any) => {
         this.cookies.set('access_token', resp.body.token)
         this.router.navigate(['users'])

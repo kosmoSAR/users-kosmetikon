@@ -2,19 +2,20 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { UsersService } from 'src/app/services/users.service';
+import { AuthenticationService } from 'src/app/login/services/authentication.service';
 
 @Component({
-  selector: 'logout',
-  templateUrl: './logout.component.html',
+  selector: 'shared-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
-export class LogoutComponent {
+export class NavbarComponent {
 
-  constructor(private _userService: UsersService, private router:Router, private _snackBar:MatSnackBar,
+  constructor(private _authentication: AuthenticationService, private router:Router, private _snackBar:MatSnackBar,
     private cookies:CookieService){}
 
   logout(){
-    this._userService.logout().subscribe({
+    this._authentication.logout().subscribe({
       next: ( respuesta ) => {
         this.logoutSuccesful( respuesta.message );
         this.cookies.delete('access_token')
@@ -44,5 +45,17 @@ export class LogoutComponent {
       verticalPosition: 'bottom'
     });
   };
+
+  usersRoute(){
+    this.router.navigate(['users'])
+  }
+
+  pictureRoute(){
+    this.router.navigate(['pictures'])
+  }
+
+  formatRoute(){
+    this.router.navigate(['format'])
+  }
 
 }

@@ -1,0 +1,23 @@
+table {
+  width: 100%;
+}
+
+.cursor{
+  cursor: pointer;
+}
+
+th{
+  font-size: 1.2rem;
+}
+
+.td-date{
+  width: 15rem;
+}
+
+.td-delete{
+  width: 3rem;
+}
+
+.download:hover{
+  text-decoration: underline;
+}

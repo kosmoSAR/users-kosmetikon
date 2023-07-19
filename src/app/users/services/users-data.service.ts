@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
-import { Usuarios } from '../interfaces/users.interfaces';
+import { Usuarios } from 'src/app/interfaces/users.interfaces';
 import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BehaviorService {
+export class UsersDataService {
 
   constructor(private _userServie: UsersService){
     this.getDatos();
@@ -55,5 +55,4 @@ export class BehaviorService {
       this.getDatos()
     })
   }
-
 }

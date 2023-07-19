@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 //Angular material
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -18,10 +19,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NavbarComponent
+  ],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -39,7 +42,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatSnackBarModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    NgxDropzoneModule
   ],
   exports: [
     CommonModule,
@@ -59,6 +63,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
+    NavbarComponent,
+    NgxDropzoneModule
   ]
 })
 export class SharedModule { }
