@@ -42,4 +42,10 @@ export class UsersBussinesListComponent {
     this.user.emit(userList)
   }
 
+  @Output() userEdit: EventEmitter<any> = new EventEmitter();
+
+  onEdit(user: any){
+    this.userEdit.emit(user)
+  }
+
 }

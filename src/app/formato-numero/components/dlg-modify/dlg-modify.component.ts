@@ -36,22 +36,40 @@ export class DlgModifyComponent {
   decimalChange(event: any){
     if (event.value == 1) {
       this.forms.controls["decimaFormat"].setValue(2);
+
+      if (this.forms.controls["number"].value) {
+        const withoutDot = this.forms.controls["number"].value.replaceAll(",","")
+        const numberTransform = parseFloat(withoutDot)
+        const valueTransformed = this.pipe.transform(numberTransform)
+        this.forms.controls["number"].setValue(valueTransformed);
+      }
     }
 
     if (event.value == 2) {
       this.forms.controls["decimaFormat"].setValue(1);
+
+      if (this.forms.controls["number"].value) {
+        const withoutDot = this.forms.controls["number"].value.replaceAll(".","")
+        const withCom = withoutDot.replace(",",".")
+        const numberTransform = parseFloat(withCom)
+        const valueTransformed = this.pipeCommon.transform(numberTransform, '1.2-5');
+        this.forms.controls["number"].setValue(valueTransformed);
+      }
     }
   }
 
   format( event: any ){
     if ( this.forms.controls["millesFormat"].value == 1 ) {
-      const numberTransform = parseFloat(event.target.value)
+      const withoutDot = event.target.value.replaceAll(".","")
+      const withCom = withoutDot.replace(",",".")
+      const numberTransform = parseFloat(withCom)
       const valueTransformed = this.pipe.transform(numberTransform)
       this.forms.controls["number"].setValue(valueTransformed);
     }
 
     if ( this.forms.controls["millesFormat"].value == 2 ) {
-      const numberTransform = Number(event.target.value);
+      const withoutCom = event.target.value.replaceAll(",","")
+      const numberTransform = parseFloat(withoutCom);
       const valueTransformed = this.pipeCommon.transform(numberTransform, '1.2-5');
       this.forms.controls["number"].setValue(valueTransformed);
     }

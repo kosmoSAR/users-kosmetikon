@@ -5,6 +5,7 @@ import { BussinesRoutingModule } from './empresas-routing.module';
 import { BussinesListComponent } from './components/bussines-list/bussines-list.component';
 import { UsersBussinesListComponent } from './components/users-bussines-list/users-bussines-list.component';
 import { DlgDeleteBussinesComponent } from './components/dlg-delete-bussines/dlg-delete-bussines.component';
+import { DlgEditBussinesComponent } from './components/dlg-edit-bussines/dlg-edit-bussines.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { DlgDeleteBussinesComponent } from './components/dlg-delete-bussines/dlg
     EmpresasComponent,
     BussinesListComponent,
     UsersBussinesListComponent,
-    DlgDeleteBussinesComponent
+    DlgDeleteBussinesComponent,
+    DlgEditBussinesComponent
   ],
   imports: [
     SharedModule,

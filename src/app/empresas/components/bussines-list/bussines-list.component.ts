@@ -28,7 +28,6 @@ export class BussinesListComponent {
       this.loading = false
     }
     this.data = new MatTableDataSource<Pictures>(this.bussinesList);
-    console.log(this.data);
     this.data.paginator = this.paginator;
   }
 
@@ -37,15 +36,21 @@ export class BussinesListComponent {
 		this.notifier$.complete();
   }
 
-  @Output() picture: EventEmitter<any> = new EventEmitter();
+  @Output() infoDelete: EventEmitter<any> = new EventEmitter();
 
-  onDelete(pictureInput: Pictures){
-    this.picture.emit(pictureInput)
+  onDelete(infoDelete: any){
+    this.infoDelete.emit(infoDelete)
   }
 
   @Output() users: EventEmitter<any> = new EventEmitter();
 
   usersInfo( usersList: any ){
     this.users.emit(usersList)
+  }
+
+  @Output() infoEdit: EventEmitter<any> = new EventEmitter();
+
+  onEdit( infoEdit: any ){
+    this.infoEdit.emit(infoEdit)
   }
 }

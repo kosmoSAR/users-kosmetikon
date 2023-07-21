@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { BussinesService } from './services/bussines.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgDeleteBussinesComponent } from './components/dlg-delete-bussines/dlg-delete-bussines.component';
+import { DlgEditBussinesComponent } from './components/dlg-edit-bussines/dlg-edit-bussines.component';
 
 @Component({
   selector: 'app-empresas',
@@ -22,7 +23,11 @@ export class EmpresasComponent implements OnInit {
   }
 
   loadBussines() {
-    this.bussinesList = this._bussinesService.getBussines()
+    this._bussinesService.getBussines().subscribe({
+      next: ( datos: any) => {
+        this.bussinesList = datos;
+      }
+    })
   }
 
   userListInfo( usersList: any ){
@@ -32,6 +37,12 @@ export class EmpresasComponent implements OnInit {
   dialogBussinesDelete( bussines: any ){
     console.log(bussines);
     const dialogRef = this._dialog.open(DlgDeleteBussinesComponent, { data: {bussines, tipo:"bussines"} });
+    dialogRef.afterClosed().subscribe(console.log)
+  }
+
+  dialogEdit( business:any, tipo:string ){
+    console.log(business);
+    const dialogRef = this._dialog.open(DlgEditBussinesComponent, { data: {business, tipo} });
     dialogRef.afterClosed().subscribe(console.log)
   }
 

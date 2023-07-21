@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,18 @@ export class BussinesService {
     {id:"2", name:"LinkedIn", usuarios:[{id:"3", nombre:"Steven"}]}
   ]
 
-  constructor() { }
+  private obsSubject:BehaviorSubject<any> = new BehaviorSubject<any[]>([]);
+  private obsSubject$ = this.obsSubject.asObservable();
+
+  constructor() {
+    this.getDatos();
+  }
 
   getBussines(){
-    return this.bussines;
+    return this.obsSubject$;
+  }
+
+  getDatos():void {
+    this.obsSubject.next( this.bussines );
   }
 }
