@@ -26,9 +26,9 @@
 
       <mat-form-field style="margin: 1rem;">
         <mat-label>Introduce el número</mat-label>
-        <input matInput placeholder="100" type="number" formControlName="number">
-        <mat-hint align="start" *ngIf="forms.value.millesFormat == 2"><span>{{ forms.value.number | number:'1.2-5' }}</span> </mat-hint>
-        <mat-hint align="start" *ngIf="forms.value.millesFormat != 2"><span>{{ forms.value.number | format }}</span> </mat-hint>
+        <input matInput placeholder="100" type="text" formControlName="number" (change)="format($event)">
+        <!-- <mat-hint align="start" *ngIf="forms.value.millesFormat == 2"><span>{{ forms.value.number | number:'1.2-5' }}</span> </mat-hint>
+        <mat-hint align="start" *ngIf="forms.value.millesFormat != 2"><span>{{ forms.value.number | format }}</span> </mat-hint> -->
       </mat-form-field>
 
     <button mat-raised-button type="submit" color="primary" [disabled]="forms.invalid">Cambiar</button>

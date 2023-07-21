@@ -47,9 +47,7 @@ export class PicturesModuleComponent implements OnDestroy {
   async openDialogAdd(): Promise<void> {
     try {
       const dialogRef = this._dialog.open(DlgAddComponent);
-      const observable1$ = dialogRef.afterClosed().pipe(
-        takeUntil(this.notifier$)
-      ); //afterClosed //Hacerlo en el dialogo
+      const observable1$ = dialogRef.afterClosed();
       const resultado1 = await lastValueFrom(observable1$);
       if (resultado1) {
         this.pictureList = resultado1;
@@ -63,9 +61,7 @@ export class PicturesModuleComponent implements OnDestroy {
   async openDialogDelete(picture: Pictures): Promise<void> {
     try {
       const dialogRef = this._dialog.open(DlgDeletePictureComponent, { data: picture });
-      const observable1$ = dialogRef.afterClosed().pipe(
-        takeUntil(this.notifier$)
-      );
+      const observable1$ = dialogRef.afterClosed();
       const resultado1: Pictures[] = await lastValueFrom(observable1$);
       if (resultado1) {
         this.pictureList = resultado1;

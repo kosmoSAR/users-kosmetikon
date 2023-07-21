@@ -81,9 +81,7 @@ export class RegisterComponent implements OnDestroy, OnInit{
         ID_CARGO: this.obtenerIdCargo(this.forms.value.cargo),
         PASSWORD: this.forms.value.password
       }
-      const registerUser$ = this._userService.newUser( usuario ).pipe(
-        takeUntil(this.notifier$)
-      );
+      const registerUser$ = this._userService.newUser( usuario )
       const resultado1 = await lastValueFrom(registerUser$)
 
       if ( resultado1.status == '201') {
@@ -125,7 +123,7 @@ export class RegisterComponent implements OnDestroy, OnInit{
     ).subscribe({
       next: (resp => {
         this.cookies.set('access_token', resp.body.token)
-        this.router.navigate(['dashboard'])
+        this.router.navigate(['users'])
       }),
       error: ( error => {
         this.errorSnackBar(error)

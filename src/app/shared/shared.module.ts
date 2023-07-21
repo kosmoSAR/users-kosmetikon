@@ -21,10 +21,12 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { RouterModule } from '@angular/router';
+import { FormatPipe } from '../formato-numero/pipes/format.pipe';
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    FormatPipe
   ],
   imports: [
     CommonModule,
@@ -66,6 +68,7 @@ import { RouterModule } from '@angular/router';
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     NavbarComponent,
+    FormatPipe,
     NgxDropzoneModule,
     RouterModule
   ]

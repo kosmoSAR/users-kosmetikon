@@ -24,15 +24,10 @@ export class DlgDeletePictureComponent implements OnDestroy {
   async deleteUser(){
     try{
       const pictureId = { "ID_IMAGEN":this.data.ID_IMAGEN }
-      const observable2$ = this._pictureService.deletePictures(pictureId).pipe(
-        takeUntil(this.notifier$)
-      )
+      const observable2$ = this._pictureService.deletePictures(pictureId);
       const resultado2 = await lastValueFrom(observable2$);
-      console.log(resultado2);
 
-      const observable3$ = this._pictureService.getPictures().pipe(
-        takeUntil(this.notifier$)
-      );
+      const observable3$ = this._pictureService.getPictures();
       const resultado3 = await lastValueFrom(observable3$);
       this.dialogRef.close( resultado3 )
     } catch (error) {

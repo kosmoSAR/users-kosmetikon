@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,7 +10,7 @@ import { DlgDeleteComponent } from '../dlg-delete/dlg-delete.component';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnChanges{
+export class UsersListComponent implements OnChanges, AfterViewInit{
 
   displayedColumns: string[] = ['nombre', 'apellido', 'fechaNacimiento', 'email', 'cargo', 'password', 'acciones'];
 
@@ -26,22 +26,31 @@ export class UsersListComponent implements OnChanges{
 
   constructor(private dialogDelete: MatDialog){}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if ( this.userList.length > 0 ) {
-      this.loadData();
-      this.loading = false
-    }
+  ngAfterViewInit(): void {
+    throw new Error('Method not implemented.');
   }
 
-  loadData():any{
+  ngOnChanges(changes: SimpleChanges): void {
+    if ( this.userList.length > 0 ) {
+      this.loading = false
+    }
+    // this.loadData();
     this.dataSource = new MatTableDataSource( this.userList )
     this.dataSource.paginator = this.paginator;
   }
 
+  // loadData():any{
+  //   this.dataSource = new MatTableDataSource( this.userList )
+  //   this.dataSource.paginator = this.paginator;
+  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   eliminar( user: any ){

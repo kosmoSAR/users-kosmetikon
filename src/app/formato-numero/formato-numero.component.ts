@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { DlgModifyComponent } from './components/dlg-modify/dlg-modify.component';
 
 @Component({
@@ -10,7 +9,7 @@ import { DlgModifyComponent } from './components/dlg-modify/dlg-modify.component
 })
 export class FormatoNumeroComponent implements OnInit {
 
-  principal_number: number = 1000;
+  public principal_number: string = "1.000,54";
   formato: number = 1;
 
   constructor(private _dialog: MatDialog){}
@@ -24,7 +23,8 @@ export class FormatoNumeroComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       (value) => {
-        if (value && value.number > 0) {
+        if (value) {
+          console.log(value);
           this.principal_number = value.number;
           this.formato = value.format;
           this.saveLocalStorage();
