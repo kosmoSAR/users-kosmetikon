@@ -4,13 +4,15 @@ import { SharedModule } from '../shared/shared.module';
 import { BussinesRoutingModule } from './empresas-routing.module';
 import { BussinesListComponent } from './components/bussines-list/bussines-list.component';
 import { UsersBussinesListComponent } from './components/users-bussines-list/users-bussines-list.component';
+import { DlgDeleteBussinesComponent } from './components/dlg-delete-bussines/dlg-delete-bussines.component';
 
 
 @NgModule({
   declarations: [
     EmpresasComponent,
     BussinesListComponent,
-    UsersBussinesListComponent
+    UsersBussinesListComponent,
+    DlgDeleteBussinesComponent
   ],
   imports: [
     SharedModule,

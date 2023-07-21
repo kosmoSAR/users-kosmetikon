@@ -42,4 +42,10 @@ export class BussinesListComponent {
   onDelete(pictureInput: Pictures){
     this.picture.emit(pictureInput)
   }
+
+  @Output() users: EventEmitter<any> = new EventEmitter();
+
+  usersInfo( usersList: any ){
+    this.users.emit(usersList)
+  }
 }

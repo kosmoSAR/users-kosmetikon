@@ -13,7 +13,7 @@ export class UsersBussinesListComponent {
 
   displayedColumns: string[] = ['ID', 'NOMBRE', 'ACCIONES']
 
-  @Input() public usersBusinessList: any[] = [];
+  @Input() public usersList: any[] = [];
   public data!: any;
   public loading: boolean = true;
   private notifier$: Subject<boolean> = new Subject<boolean>();
@@ -23,10 +23,10 @@ export class UsersBussinesListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.usersBusinessList.length > 0) {
+    if (this.usersList.length > 0) {
       this.loading = false
     }
-    this.data = new MatTableDataSource<Pictures>(this.usersBusinessList);
+    this.data = new MatTableDataSource<Pictures>(this.usersList);
     console.log(this.data);
     this.data.paginator = this.paginator;
   }
@@ -36,10 +36,10 @@ export class UsersBussinesListComponent {
 		this.notifier$.complete();
   }
 
-  @Output() picture: EventEmitter<any> = new EventEmitter();
+  @Output() user: EventEmitter<any> = new EventEmitter();
 
-  onDelete(pictureInput: Pictures){
-    this.picture.emit(pictureInput)
+  onDelete(userList: any){
+    this.user.emit(userList)
   }
 
 }

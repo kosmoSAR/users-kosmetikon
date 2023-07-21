@@ -26,7 +26,6 @@ import { DecimalPipe } from '@angular/common';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
-    LoginModule,
   ],
   providers: [CookieService, FormatPipe, DecimalPipe],
   bootstrap: [AppComponent]
