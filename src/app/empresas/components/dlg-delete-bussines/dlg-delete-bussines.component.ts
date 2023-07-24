@@ -4,6 +4,8 @@ import { Subject, lastValueFrom } from 'rxjs';
 import { Pictures } from 'src/app/interfaces/picture.interfaces';
 import { DlgDeletePictureComponent } from 'src/app/pictures-module/components/dlg-delete/dlg-delete.component';
 import { PictureService } from 'src/app/pictures-module/services/picture.service';
+import { BussinesService } from '../../services/bussines.service';
+import { UsersBusinessService } from '../../services/users-business.service';
 
 @Component({
   selector: 'app-dlg-delete-bussines',
@@ -14,29 +16,29 @@ export class DlgDeleteBussinesComponent {
 
   private notifier$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public dialogRef: MatDialogRef<DlgDeleteBussinesComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any ) {}
+  constructor(private _businessService: BussinesService, private _userService: UsersBusinessService
+    ,public dialogRef: MatDialogRef<DlgDeleteBussinesComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any ) {
+      console.log(data);
+
+    }
 
   ngOnDestroy(): void {
     this.notifier$.next(true);
 		this.notifier$.complete();
   }
 
-  async deleteUser(){
-    try{
-      console.log(this.data);
-      if (this.data.tipo === "bussines") {
-        const pictureId = { "id":this.data.bussines.id}
-        this.dialogRef.close(pictureId)
+  deleteUser(){
+      if (this.data.tipo === "business") {
+        this._businessService.deleteBusiness(this.data.bussines.id);
+        this.dialogRef.close(this.data.bussines.id);
       }
 
-      if (this.data.tipo === "usuario") {
-        const pictureId = { "id":this.data.user.id}
-        this.dialogRef.close(pictureId)
+      if(this.data.tipo === "user"){
+        this._userService.deleteUser(this.data.bussines.id)
+        this._userService.filterUsers(this.data.bussines.idBusiness)
+        this.dialogRef.close();
       }
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   closedlg(){

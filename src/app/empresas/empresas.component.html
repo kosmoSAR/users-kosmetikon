@@ -2,16 +2,22 @@
 <div class="title">
   <h1>Lista De Empresas 💻</h1>
 </div>
+<div style="margin-bottom: 1rem; display: flex; justify-content: center;">
+  <button mat-raised-button color="primary" (click)="dialogCreate('newBusiness')">Nueva Empresa</button>
+</div>
 <div class="bussines_table">
-  <bussines-list [bussinesList]="bussinesList" (users)="userListInfo($event)" (infoDelete)="dialogBussinesDelete($event)"
+  <bussines-list (businessId)="idBusiness($event)" (infoDelete)="dialogBussinesDelete($event, 'business')"
   (infoEdit)="dialogEdit($event, 'bussines')"></bussines-list>
 </div>
-<div *ngIf="usersList.length > 0">
+<div *ngIf="businessId">
   <div class="title">
     <h2>Lista De Usuarios 🧍</h2>
   </div>
+  <div style="margin-bottom: 1rem; display: flex; justify-content: center;">
+    <button mat-raised-button color="primary" (click)="dialogCreate('newUser')">Nuevo usuario</button>
+  </div>
   <div class="bussines_table">
-    <users-bussines-list [usersList]="usersList" (user)="dialogUsersDelete($event)"
+    <users-bussines-list [businessId]="businessId" (user)="dialogBussinesDelete($event, 'user')"
     (userEdit)="dialogEdit($event, 'user')"></users-bussines-list>
   </div>
 </div>

@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { LoginGuardian, LoginGuardian2 } from './guard/login-guardian';
-import { PicturesModuleModule } from './pictures-module/pictures-module.module';
-
+import { LoginGuardian} from './guard/login-guardian';
 
 const routes: Routes = [
   { path:'initial', loadChildren: () => import('./login/login.module').then(res => res.LoginModule)},

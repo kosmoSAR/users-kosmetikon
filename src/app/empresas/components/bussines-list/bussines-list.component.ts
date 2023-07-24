@@ -1,39 +1,45 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { Pictures } from 'src/app/interfaces/picture.interfaces';
 import { FilesService } from 'src/app/pictures-module/services/files.service';
+import { BussinesService } from '../../services/bussines.service';
 
 @Component({
   selector: 'bussines-list',
   templateUrl: './bussines-list.component.html',
   styleUrls: ['./bussines-list.component.css']
 })
-export class BussinesListComponent {
+export class BussinesListComponent implements OnChanges, OnInit{
 
-  displayedColumns: string[] = ['ID', 'NOMBRE', 'ACCIONES']
-
-  @Input() public bussinesList: any[] = [];
-  public data!: any;
-  public loading: boolean = true;
-  private notifier$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(){}
+  displayedColumns: string[] = ['id', 'name', 'phone', 'ACCIONES']
+  public bussinesList!: any[];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatTable) table!: MatTable<any>; //   <ListadoTableItem>;
+  dataSource: MatTableDataSource<any>; //ListadoTableDataSource;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.bussinesList.length > 0) {
-      this.loading = false
-    }
-    this.data = new MatTableDataSource<Pictures>(this.bussinesList);
-    this.data.paginator = this.paginator;
+  constructor(private _bussinesService: BussinesService){
+    this.dataSource = new MatTableDataSource<any>([]);
   }
 
-  ngOnDestroy(): void {
-    this.notifier$.next(true);
-		this.notifier$.complete();
+  ngOnInit(): void {
+    this._bussinesService.getBussinesCompanies().subscribe((data: any) => {
+      this.bussinesList = data
+      this.dataSource.data = this.bussinesList
+    })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      this.dataSource.data = this.bussinesList;
+      this.dataSource.sort = this.sort;
+
+      console.log('Lista empresas en el hijo');
+      console.log(this.bussinesList);
+      console.log(this.dataSource);
   }
 
   @Output() infoDelete: EventEmitter<any> = new EventEmitter();
@@ -42,10 +48,10 @@ export class BussinesListComponent {
     this.infoDelete.emit(infoDelete)
   }
 
-  @Output() users: EventEmitter<any> = new EventEmitter();
+  @Output() businessId: EventEmitter<any> = new EventEmitter();
 
-  usersInfo( usersList: any ){
-    this.users.emit(usersList)
+  usersInfo( id: string ){
+    this.businessId.emit(id)
   }
 
   @Output() infoEdit: EventEmitter<any> = new EventEmitter();

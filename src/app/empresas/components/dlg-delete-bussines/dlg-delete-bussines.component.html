@@ -1,5 +1,6 @@
 <div class="principal">
-  <h2>¿Estás seguro que quieres eliminar la empresa?</h2>
+  <h2 *ngIf="data.tipo === 'business'">¿Estás seguro que quieres eliminar la empresa?</h2>
+  <h2 *ngIf="data.tipo === 'user'">¿Estás seguro que quieres eliminar el usuario?</h2>
   <div class="onDeleteButtons">
     <button mat-raised-button (click)="closedlg()">Close</button>
     <button mat-raised-button color="warn" (click)="deleteUser()">Ok</button>

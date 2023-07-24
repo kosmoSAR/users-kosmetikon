@@ -1,6 +1,6 @@
 <div class="principal">
-  <h2>Editar Información</h2>
-  <form [formGroup]="forms" (ngSubmit)="updateInfo()">
+  <h2>Crear infomración</h2>
+  <form [formGroup]="forms" (ngSubmit)="createInfo()">
     <mat-form-field class="example-full-width">
       <mat-label>Nombre</mat-label>
       <input matInput placeholder="Kosmetikon" formControlName="nombre">
@@ -14,3 +14,4 @@
     <button type="submit" mat-raised-button [disabled]="forms.invalid">Guardar</button>
   </form>
 </div>
+

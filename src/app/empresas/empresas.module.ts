@@ -6,6 +6,7 @@ import { BussinesListComponent } from './components/bussines-list/bussines-list.
 import { UsersBussinesListComponent } from './components/users-bussines-list/users-bussines-list.component';
 import { DlgDeleteBussinesComponent } from './components/dlg-delete-bussines/dlg-delete-bussines.component';
 import { DlgEditBussinesComponent } from './components/dlg-edit-bussines/dlg-edit-bussines.component';
+import { DlgCreateComponent } from './components/dlg-create/dlg-create.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { DlgEditBussinesComponent } from './components/dlg-edit-bussines/dlg-edi
     BussinesListComponent,
     UsersBussinesListComponent,
     DlgDeleteBussinesComponent,
-    DlgEditBussinesComponent
+    DlgEditBussinesComponent,
+    DlgCreateComponent
   ],
   imports: [
     SharedModule,

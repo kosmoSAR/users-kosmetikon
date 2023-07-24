@@ -1,39 +1,43 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, OnChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Subject, tap, map } from 'rxjs';
 import { Pictures } from 'src/app/interfaces/picture.interfaces';
+import { UsersBusinessService } from '../../services/users-business.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'users-bussines-list',
   templateUrl: './users-bussines-list.component.html',
   styleUrls: ['./users-bussines-list.component.css']
 })
-export class UsersBussinesListComponent {
+export class UsersBussinesListComponent implements OnInit, OnChanges {
 
-  displayedColumns: string[] = ['ID', 'NOMBRE', 'ACCIONES']
+  displayedColumns: string[] = ['ID', 'NOMBRE', 'PHONE', 'ACCIONES']
+  public usersList!: any[];
 
-  @Input() public usersList: any[] = [];
-  public data!: any;
-  public loading: boolean = true;
-  private notifier$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(){}
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.usersList.length > 0) {
-      this.loading = false
-    }
-    this.data = new MatTableDataSource<Pictures>(this.usersList);
-    console.log(this.data);
-    this.data.paginator = this.paginator;
+  constructor(private _userService: UsersBusinessService){
+    this.dataSource = new MatTableDataSource<any>([]);
   }
 
-  ngOnDestroy(): void {
-    this.notifier$.next(true);
-		this.notifier$.complete();
+  @Input() businessId!: string;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatTable) table!: MatTable<any>; //   <ListadoTableItem>;
+  dataSource: MatTableDataSource<any>; //ListadoTableDataSource;
+
+  ngOnInit(): void {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this._userService.filterUsers(this.businessId)
+
+    this._userService.getUsersFilteredCompanies().subscribe((data: any) => {
+      console.log(data);
+      this.usersList = data
+      this.dataSource.data = this.usersList
+    })
   }
 
   @Output() user: EventEmitter<any> = new EventEmitter();

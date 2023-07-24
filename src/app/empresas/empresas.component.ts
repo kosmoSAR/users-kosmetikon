@@ -1,54 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
-import { BussinesService } from './services/bussines.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DlgDeleteBussinesComponent } from './components/dlg-delete-bussines/dlg-delete-bussines.component';
 import { DlgEditBussinesComponent } from './components/dlg-edit-bussines/dlg-edit-bussines.component';
+import { DlgCreateComponent } from './components/dlg-create/dlg-create.component';
 
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
   styleUrls: ['./empresas.component.css']
 })
-export class EmpresasComponent implements OnInit {
+export class EmpresasComponent {
 
-  public bussinesList: any[] = [];
-  public usersList: any[] = []
+  public businessId!: string;
   private notifier$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private _bussinesService: BussinesService, private _dialog: MatDialog){}
+  constructor(private _dialog: MatDialog){}
 
-  ngOnInit(): void {
-    this.loadBussines();
+  idBusiness( id: string ){
+    this.businessId = id;
   }
 
-  loadBussines() {
-    this._bussinesService.getBussines().subscribe({
-      next: ( datos: any) => {
-        this.bussinesList = datos;
+  dialogBussinesDelete( bussines: any, tipo:string ){
+    const dialogRef = this._dialog.open(DlgDeleteBussinesComponent, { data: {bussines, tipo} });
+    dialogRef.afterClosed().subscribe((message: string) => {
+      if (message === this.businessId) {
+        this.businessId = '';
       }
     })
   }
 
-  userListInfo( usersList: any ){
-    this.usersList = usersList
-  }
-
-  dialogBussinesDelete( bussines: any ){
-    console.log(bussines);
-    const dialogRef = this._dialog.open(DlgDeleteBussinesComponent, { data: {bussines, tipo:"bussines"} });
-    dialogRef.afterClosed().subscribe(console.log)
-  }
-
   dialogEdit( business:any, tipo:string ){
-    console.log(business);
-    const dialogRef = this._dialog.open(DlgEditBussinesComponent, { data: {business, tipo} });
-    dialogRef.afterClosed().subscribe(console.log)
+    this._dialog.open(DlgEditBussinesComponent, { data: {business, tipo} });
   }
 
-  dialogUsersDelete( user: any){
-    const dialogRef = this._dialog.open(DlgDeleteBussinesComponent, { data: {user, tipo:"usuario"} });
-    dialogRef.afterClosed().subscribe(console.log)
+  dialogCreate( tipo:string ){
+    if ( tipo === 'newBusiness') {
+      this._dialog.open(DlgCreateComponent, { data: tipo });
+    }
+
+    if (tipo === 'newUser') {
+      this._dialog.open(DlgCreateComponent, { data: {tipo, id:this.businessId} });
+    }
   }
 
 }
