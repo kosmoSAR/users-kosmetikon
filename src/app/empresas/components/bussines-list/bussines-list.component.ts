@@ -36,27 +36,17 @@ export class BussinesListComponent implements OnChanges, OnInit{
   ngOnChanges(changes: SimpleChanges): void {
       this.dataSource.data = this.bussinesList;
       this.dataSource.sort = this.sort;
-
-      console.log('Lista empresas en el hijo');
-      console.log(this.bussinesList);
-      console.log(this.dataSource);
   }
 
   @Output() infoDelete: EventEmitter<any> = new EventEmitter();
 
-  onDelete(infoDelete: any){
-    this.infoDelete.emit(infoDelete)
-  }
+  onDelete(infoDelete: any){ this.infoDelete.emit(infoDelete) }
 
   @Output() businessId: EventEmitter<any> = new EventEmitter();
 
-  usersInfo( id: string ){
-    this.businessId.emit(id)
-  }
+  usersInfo( id: string ){ this.businessId.emit(id) }
 
   @Output() infoEdit: EventEmitter<any> = new EventEmitter();
 
-  onEdit( infoEdit: any ){
-    this.infoEdit.emit(infoEdit)
-  }
+  onEdit( infoEdit: any ){ this.infoEdit.emit(infoEdit) }
 }

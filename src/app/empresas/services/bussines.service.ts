@@ -1,60 +1,37 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
-import { Usuarios } from '../../interfaces/users.interfaces';
+import { Business } from '../interfaces/business.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BussinesService {
 
-  private businessCompanies:BehaviorSubject<any> = new BehaviorSubject<any[]>([]);
+  private businessCompanies:BehaviorSubject<Business[]> = new BehaviorSubject<Business[]>([]);
   private businessCompanies$ = this.businessCompanies.asObservable();
 
-  getBussinesCompanies(): Observable<any[]>{
+  getBussinesCompanies(): Observable<Business[]>{
     return this.businessCompanies$;
   }
 
-  createBusiness(business: any){
+  createBusiness(business: Business): void{
     const companiesList = this.businessCompanies.getValue();
     companiesList.push(business);
     this.businessCompanies.next(companiesList);
   }
 
-  editBusiness( business: any ){
+  editBusiness( business: Business): void{
     const companiesList = this.businessCompanies.getValue();
-    let businessSelect = companiesList.filter( (businessInList:any) => businessInList.id === business.id );
+    let businessSelect = companiesList.filter( (businessInList: Business) => businessInList.id === business.id );
     businessSelect[0].name = business.name;
     businessSelect[0].phone = business.phone;
     this.businessCompanies.next(companiesList);
   }
 
-  deleteBusiness( id: string ){
+  deleteBusiness( id: string ): void{
     const companiesList = this.businessCompanies.getValue();
-    const businessFiltered = companiesList.filter( (businessInList:any) => businessInList.id !== id );
+    const businessFiltered = companiesList.filter( (businessInList: Business) => businessInList.id !== id );
     this.businessCompanies.next(businessFiltered);
   }
-
-  // editUser( user:any ){
-  //   const businessList = this.list;
-  //   for( let business of businessList ){
-  //     const userInList: any = business.usuarios.filter( (userInList: any) => userInList.id === user.id )
-  //     if (userInList[0]) {
-  //       userInList[0].nombre = user.name
-  //       userInList[0].phone = user.phone
-  //     }
-  //   }
-  //   localStorage.setItem('list', JSON.stringify(businessList));
-  // }
-
-
-  // deleteUser(id: string){
-  //   const businessList = this.list;
-  //   for( let business of businessList ){
-  //     const listUsers = business.usuarios.filter( (userInList: any) => userInList.id !== id )
-  //     business.usuarios = listUsers
-  //   }
-  //   localStorage.setItem('list', JSON.stringify(businessList));
-  // }
 
 }

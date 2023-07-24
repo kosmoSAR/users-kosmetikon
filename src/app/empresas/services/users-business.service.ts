@@ -1,48 +1,49 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UsersBusiness } from '../interfaces/usersBusiness.interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersBusinessService {
 
-  private usersCompanies:BehaviorSubject<any> = new BehaviorSubject<any[]>([]);
+  private usersCompanies:BehaviorSubject<UsersBusiness[]> = new BehaviorSubject<UsersBusiness[]>([]);
   private usersCompanies$ = this.usersCompanies.asObservable();
 
-  private usersFilteredByCompanie:BehaviorSubject<any> = new BehaviorSubject<any[]>([]);
+  private usersFilteredByCompanie:BehaviorSubject<UsersBusiness[]> = new BehaviorSubject<UsersBusiness[]>([]);
   private usersFilteredCompanies$ = this.usersFilteredByCompanie.asObservable();
 
-  getusersCompanies(): Observable<any[]>{
+  getusersCompanies(): Observable<UsersBusiness[]>{
     return this.usersCompanies$;
   }
 
-  getUsersFilteredCompanies(): Observable<any[]>{
+  getUsersFilteredCompanies(): Observable<UsersBusiness[]>{
     return this.usersFilteredCompanies$;
   }
 
-  filterUsers( id: string ){
+  filterUsers( id: string ): void{
     const usersList = this.usersCompanies.getValue();
-    let usersfiltered = usersList.filter( (usersInList:any) => usersInList.idBusiness === id)
+    let usersfiltered = usersList.filter( (usersInList: UsersBusiness) => usersInList.idBusiness === id)
     this.usersFilteredByCompanie.next(usersfiltered);
   }
 
-  createUsers( user: any){
+  createUsers( user: UsersBusiness): void{
     const usersList = this.usersCompanies.getValue();
     usersList.push(user);
     this.usersCompanies.next(usersList);
   }
 
-  editUser( user: any ){
+  editUser( user: UsersBusiness ): void{
     const usersList = this.usersCompanies.getValue();
-    let usersSelect = usersList.filter( (usersInList:any) => usersInList.id === user.id );
+    let usersSelect = usersList.filter( (usersInList: UsersBusiness) => usersInList.id === user.id );
     usersSelect[0].name = user.name;
     usersSelect[0].phone = user.phone;
     this.usersCompanies.next(usersList);
   }
 
-  deleteUser( id: string ){
+  deleteUser( id: string ): void{
     const usersList = this.usersCompanies.getValue();
-    const usersFiltered = usersList.filter( (businessInList:any) => businessInList.id !== id );
+    const usersFiltered = usersList.filter( (businessInList: UsersBusiness) => businessInList.id !== id );
     this.usersCompanies.next(usersFiltered);
   }
 

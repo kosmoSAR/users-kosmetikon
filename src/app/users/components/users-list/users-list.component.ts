@@ -10,7 +10,7 @@ import { DlgDeleteComponent } from '../dlg-delete/dlg-delete.component';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnChanges, AfterViewInit{
+export class UsersListComponent implements OnChanges{
 
   displayedColumns: string[] = ['nombre', 'apellido', 'fechaNacimiento', 'email', 'cargo', 'password', 'acciones'];
 
@@ -26,23 +26,13 @@ export class UsersListComponent implements OnChanges, AfterViewInit{
 
   constructor(private dialogDelete: MatDialog){}
 
-  ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if ( this.userList.length > 0 ) {
       this.loading = false
     }
-    // this.loadData();
     this.dataSource = new MatTableDataSource( this.userList )
     this.dataSource.paginator = this.paginator;
   }
-
-  // loadData():any{
-  //   this.dataSource = new MatTableDataSource( this.userList )
-  //   this.dataSource.paginator = this.paginator;
-  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
