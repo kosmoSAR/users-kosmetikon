@@ -9,7 +9,7 @@ export const LoginGuardian = () => {
   if (cookies.get('access_token')) {
     return true;
   } else {
-    router.navigate(['login'])
+    router.navigate(['initial'])
     return false;
   }
 }

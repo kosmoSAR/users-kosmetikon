@@ -14,21 +14,12 @@ import { UsersBusinessService } from '../../services/users-business.service';
 })
 export class DlgDeleteBussinesComponent {
 
-  private notifier$: Subject<boolean> = new Subject<boolean>();
-
   constructor(private _businessService: BussinesService, private _userService: UsersBusinessService
     ,public dialogRef: MatDialogRef<DlgDeleteBussinesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any ) {
-      console.log(data);
-
     }
 
-  ngOnDestroy(): void {
-    this.notifier$.next(true);
-		this.notifier$.complete();
-  }
-
-  deleteUser(){
+  deleteUser(): void{
       if (this.data.tipo === "business") {
         this._businessService.deleteBusiness(this.data.bussines.id);
         this.dialogRef.close(this.data.bussines.id);

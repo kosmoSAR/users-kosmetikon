@@ -5,19 +5,20 @@ import { Subject, tap, map } from 'rxjs';
 import { Pictures } from 'src/app/interfaces/picture.interfaces';
 import { UsersBusinessService } from '../../services/users-business.service';
 import { MatSort } from '@angular/material/sort';
+import { UsersBusiness } from '../../interfaces/usersBusiness.interfaces';
 
 @Component({
   selector: 'users-bussines-list',
   templateUrl: './users-bussines-list.component.html',
   styleUrls: ['./users-bussines-list.component.css']
 })
-export class UsersBussinesListComponent implements OnInit, OnChanges {
+export class UsersBussinesListComponent implements OnChanges {
 
   displayedColumns: string[] = ['ID', 'NOMBRE', 'PHONE', 'ACCIONES']
-  public usersList!: any[];
+  public usersList!: UsersBusiness[];
 
   constructor(private _userService: UsersBusinessService){
-    this.dataSource = new MatTableDataSource<any>([]);
+    this.dataSource = new MatTableDataSource<UsersBusiness[]>([]);
   }
 
   @Input() businessId!: string;
@@ -26,30 +27,20 @@ export class UsersBussinesListComponent implements OnInit, OnChanges {
   @ViewChild(MatTable) table!: MatTable<any>; //   <ListadoTableItem>;
   dataSource: MatTableDataSource<any>; //ListadoTableDataSource;
 
-  ngOnInit(): void {
-
-  }
+  @Output() user: EventEmitter<UsersBusiness> = new EventEmitter();
+  @Output() userEdit: EventEmitter<UsersBusiness> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
     this._userService.filterUsers(this.businessId)
 
-    this._userService.getUsersFilteredCompanies().subscribe((data: any) => {
-      console.log(data);
+    this._userService.getUsersFilteredCompanies().subscribe((data: UsersBusiness[]) => {
       this.usersList = data
       this.dataSource.data = this.usersList
     })
   }
 
-  @Output() user: EventEmitter<any> = new EventEmitter();
+  onDelete(userInfo: UsersBusiness): void{ this.user.emit(userInfo) }
 
-  onDelete(userList: any){
-    this.user.emit(userList)
-  }
-
-  @Output() userEdit: EventEmitter<any> = new EventEmitter();
-
-  onEdit(user: any){
-    this.userEdit.emit(user)
-  }
+  onEdit(user: UsersBusiness): void{ this.userEdit.emit(user) }
 
 }

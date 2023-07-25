@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Pictures } from 'src/app/interfaces/picture.interfaces';
 import { FilesService } from 'src/app/pictures-module/services/files.service';
 import { BussinesService } from '../../services/bussines.service';
+import { Business } from '../../interfaces/business.interface';
 
 @Component({
   selector: 'bussines-list',
@@ -15,19 +16,24 @@ import { BussinesService } from '../../services/bussines.service';
 export class BussinesListComponent implements OnChanges, OnInit{
 
   displayedColumns: string[] = ['id', 'name', 'phone', 'ACCIONES']
-  public bussinesList!: any[];
+  public bussinesList!: Business[];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<any>; //   <ListadoTableItem>;
   dataSource: MatTableDataSource<any>; //ListadoTableDataSource;
 
+  @Output() infoDelete: EventEmitter<Business> = new EventEmitter();
+  @Output() businessId: EventEmitter<string> = new EventEmitter();
+  @Output() infoEdit: EventEmitter<Business> = new EventEmitter();
+
+
   constructor(private _bussinesService: BussinesService){
-    this.dataSource = new MatTableDataSource<any>([]);
+    this.dataSource = new MatTableDataSource<Business[]>([]);
   }
 
   ngOnInit(): void {
-    this._bussinesService.getBussinesCompanies().subscribe((data: any) => {
+    this._bussinesService.getBussinesCompanies().subscribe((data: Business[]) => {
       this.bussinesList = data
       this.dataSource.data = this.bussinesList
     })
@@ -38,15 +44,9 @@ export class BussinesListComponent implements OnChanges, OnInit{
       this.dataSource.sort = this.sort;
   }
 
-  @Output() infoDelete: EventEmitter<any> = new EventEmitter();
+  onDelete(infoDelete: Business): void{ this.infoDelete.emit(infoDelete) }
 
-  onDelete(infoDelete: any){ this.infoDelete.emit(infoDelete) }
+  usersInfo( id: string ): void{ this.businessId.emit(id) }
 
-  @Output() businessId: EventEmitter<any> = new EventEmitter();
-
-  usersInfo( id: string ){ this.businessId.emit(id) }
-
-  @Output() infoEdit: EventEmitter<any> = new EventEmitter();
-
-  onEdit( infoEdit: any ){ this.infoEdit.emit(infoEdit) }
+  onEdit( infoEdit: Business ): void{ this.infoEdit.emit(infoEdit) }
 }
