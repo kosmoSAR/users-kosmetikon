@@ -4,13 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Usuarios } from 'src/app/interfaces/users.interfaces';
 import { DlgDeleteComponent } from '../dlg-delete/dlg-delete.component';
+import { UsersDataService } from '../../services/users-data.service';
+import { UsersListService } from '../../services/usersList.service';
 
 @Component({
   selector: 'users-list',
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnChanges{
+export class UsersListComponent implements OnChanges, OnInit{
 
   displayedColumns: string[] = ['nombre', 'apellido', 'fechaNacimiento', 'email', 'cargo', 'password', 'acciones'];
 
@@ -18,29 +20,46 @@ export class UsersListComponent implements OnChanges{
   public loading: boolean = true;
 
   @Input() public userList: any[] = [];
+  public listOfUsers: Usuarios[] = [];
   @Input() public cargos: any[] = [];
+  dataSource: MatTableDataSource<any>;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public userInfo!: Usuarios;
-  public dataSource: any;
+  // public dataSource: any;
 
-  constructor(private dialogDelete: MatDialog){}
+  constructor(private dialogDelete: MatDialog, private _userData: UsersDataService,
+    private _usersListService: UsersListService){
+    this.dataSource = new MatTableDataSource<any[]>([]);
+  }
+
+  ngOnInit(): void{
+    this._userData.getUserList$().subscribe( (users) => {
+      this.listOfUsers = users
+      this.dataSource.data = users
+      this.dataSource.paginator = this.paginator;
+    })
+
+    this._usersListService.getUsersList().subscribe( (data) => {
+      console.log(data);
+    })
+
+    this._usersListService.getList().subscribe( (data) => {
+      console.log(data);
+    } )
+
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ( this.userList.length > 0 ) {
+    if ( this.listOfUsers.length ) {
       this.loading = false
     }
-    this.dataSource = new MatTableDataSource( this.userList )
-    this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   eliminar( user: any ){

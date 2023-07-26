@@ -17,7 +17,7 @@
     <button mat-raised-button color="primary" (click)="dialogCreate('newUser')">Nuevo usuario</button>
   </div>
   <div class="bussines_table">
-    <users-bussines-list [businessId]="businessId" (user)="dialogBussinesDelete($event, 'user')"
+    <users-bussines-list [businessId]="businessId" (userDelete)="dialogBussinesDelete($event, 'user')"
     (userEdit)="dialogEdit($event, 'user')"></users-bussines-list>
   </div>
 </div>

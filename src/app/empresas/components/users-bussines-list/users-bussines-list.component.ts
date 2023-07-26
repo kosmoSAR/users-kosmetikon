@@ -27,7 +27,7 @@ export class UsersBussinesListComponent implements OnChanges {
   @ViewChild(MatTable) table!: MatTable<any>; //   <ListadoTableItem>;
   dataSource: MatTableDataSource<any>; //ListadoTableDataSource;
 
-  @Output() user: EventEmitter<UsersBusiness> = new EventEmitter();
+  @Output() userDelete: EventEmitter<UsersBusiness> = new EventEmitter();
   @Output() userEdit: EventEmitter<UsersBusiness> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -39,7 +39,7 @@ export class UsersBussinesListComponent implements OnChanges {
     })
   }
 
-  onDelete(userInfo: UsersBusiness): void{ this.user.emit(userInfo) }
+  onDelete(userInfo: UsersBusiness): void{ this.userDelete.emit(userInfo) }
 
   onEdit(user: UsersBusiness): void{ this.userEdit.emit(user) }
 
